@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Business Account Document & Subcollections
+    match /businesses/{businessId} {
+      allow read, write: if request.auth != null && request.auth.uid == businessId;
+      
+      // Contacts Subcollection
+      match /contacts/{contactId} {
+        allow read, write: if request.auth != null && request.auth.uid == businessId;
+      }
+      
+      // Contact Groups Subcollection
+      match /groups/{groupId} {
+        allow read, write: if request.auth != null && request.auth.uid == businessId;
+      }
+      
+      // Pipeline Stages Subcollection
+      match /stages/{stageId} {
+        allow read, write: if request.auth != null && request.auth.uid == businessId;
+      }
+      
+      // Interactions Subcollection
+      match /interactions/{interactionId} {
+        allow read, write: if request.auth != null && request.auth.uid == businessId;
+      }
+    }
+  }
+}
