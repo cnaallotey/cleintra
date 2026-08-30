@@ -86,7 +86,7 @@ export function AuthNavbar() {
                 <div className="text-xs font-black text-slate-900 truncate">
                   {businessDisplayName}
                 </div>
-                <div className="text-[10px] font-mono text-slate-500 truncate mt-0.5">
+                <div className="text-[10px] text-slate-500 truncate mt-0.5">
                   {user.email}
                 </div>
               </div>

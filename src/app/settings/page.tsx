@@ -99,14 +99,14 @@ export default function SettingsPage() {
         <div className="flex items-center justify-between">
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase text-slate-700 hover:text-[#0A1D13] transition-colors py-1.5 px-2.5 bg-white border border-slate-300 hover:border-slate-400"
+            className="inline-flex items-center gap-2 text-xs font-bold uppercase text-slate-700 hover:text-[#0A1D13] transition-colors py-1.5 px-2.5 bg-white border border-slate-300 hover:border-slate-400"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Dashboard</span>
           </Link>
 
           {successMessage && (
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#0A1D13] text-[#BEF264] text-xs font-mono font-bold uppercase animate-in fade-in">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#0A1D13] text-[#BEF264] text-xs font-bold uppercase animate-in fade-in">
               <Check className="w-3.5 h-3.5" />
               <span>{successMessage}</span>
             </div>
@@ -144,7 +144,7 @@ export default function SettingsPage() {
               
               {/* Business Name (Required) */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-mono uppercase font-bold text-slate-700">
+                <label className="block text-xs uppercase font-bold text-slate-700">
                   Business / Shop Name <span className="text-rose-500">*</span>
                 </label>
                 <div className="relative">
@@ -162,7 +162,7 @@ export default function SettingsPage() {
 
               {/* Owner Full Name */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-mono uppercase font-bold text-slate-700">
+                <label className="block text-xs uppercase font-bold text-slate-700">
                   Owner Full Name
                 </label>
                 <div className="relative">
@@ -179,7 +179,7 @@ export default function SettingsPage() {
 
               {/* Support Email */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-mono uppercase font-bold text-slate-700">
+                <label className="block text-xs uppercase font-bold text-slate-700">
                   Support / Business Email
                 </label>
                 <div className="relative">
@@ -196,7 +196,7 @@ export default function SettingsPage() {
 
               {/* Contact Phone */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-mono uppercase font-bold text-slate-700">
+                <label className="block text-xs uppercase font-bold text-slate-700">
                   Contact Phone Number
                 </label>
                 <div className="relative">
@@ -213,7 +213,7 @@ export default function SettingsPage() {
 
               {/* Currency / Region */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-mono uppercase font-bold text-slate-700">
+                <label className="block text-xs uppercase font-bold text-slate-700">
                   Primary Currency / Region
                 </label>
                 <div className="relative">
@@ -235,7 +235,7 @@ export default function SettingsPage() {
 
               {/* Industry Category */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-mono uppercase font-bold text-slate-700">
+                <label className="block text-xs uppercase font-bold text-slate-700">
                   Business Industry
                 </label>
                 <div className="relative">
@@ -281,23 +281,23 @@ export default function SettingsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
             <div className="p-3.5 bg-[#F8FAF8] border border-slate-200 space-y-1">
-              <div className="text-slate-500 font-mono font-bold uppercase tracking-wider text-[10px]">Account ID</div>
-              <div className="font-mono font-bold text-slate-900 truncate" title={user?.uid}>
+              <div className="text-slate-500 font-bold uppercase tracking-wider text-[10px]">Account ID</div>
+              <div className="font-bold text-slate-900 truncate" title={user?.uid}>
                 {user?.uid || "biz_demo_1"}
               </div>
               <p className="text-[10px] text-slate-400">Your unique business reference</p>
             </div>
 
             <div className="p-3.5 bg-[#F8FAF8] border border-slate-200 space-y-1">
-              <div className="text-slate-500 font-mono font-bold uppercase tracking-wider text-[10px]">Sign-in Email</div>
-              <div className="font-bold text-slate-900 truncate font-mono" title={user?.email}>
+              <div className="text-slate-500 font-bold uppercase tracking-wider text-[10px]">Sign-in Email</div>
+              <div className="font-bold text-slate-900 truncate" title={user?.email}>
                 {user?.email || "owner@adom.com"}
               </div>
             </div>
 
             <div className="p-3.5 bg-[#F8FAF8] border border-slate-200 space-y-1">
-              <div className="text-slate-500 font-mono font-bold uppercase tracking-wider text-[10px]">Member Since</div>
-              <div className="font-bold text-slate-900 font-mono">
+              <div className="text-slate-500 font-bold uppercase tracking-wider text-[10px]">Member Since</div>
+              <div className="font-bold text-slate-900">
                 {formattedJoinDate}
               </div>
             </div>

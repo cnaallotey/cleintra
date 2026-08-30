@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+export const runtime = "edge";
+
 export async function GET() {
   const sampleCsvContent = `Name,Phone,Email,Source,Notes
 Kwame Mensah,0241234567,kwame@example.com,Facebook Ad,Interested in wholesale pricing

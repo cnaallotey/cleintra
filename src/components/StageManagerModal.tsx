@@ -109,7 +109,7 @@ export function StageManagerModal({
         <div className="flex items-center justify-between p-5 bg-[#0A1D13] text-white border-b border-[#0A1D13]">
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-mono text-[10px] font-bold uppercase bg-[#BEF264] text-[#0A1D13] px-2 py-0.5">
+              <span className="text-[10px] font-bold uppercase bg-[#BEF264] text-[#0A1D13] px-2 py-0.5">
                 FUNNEL CONFIG
               </span>
               <h2 className="text-base font-black text-white tracking-tight">Customize Pipeline Stages</h2>
@@ -140,7 +140,7 @@ export function StageManagerModal({
           {stageToDelete && (
             <div className="border-2 border-rose-400 bg-rose-50/80 p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-mono uppercase font-bold text-rose-900 flex items-center gap-1.5">
+                <span className="text-xs uppercase font-bold text-rose-900 flex items-center gap-1.5">
                   <AlertCircle className="w-4 h-4 text-rose-600" />
                   Confirm Stage Deletion: &ldquo;{stageToDelete.name}&rdquo;
                 </span>
@@ -202,7 +202,7 @@ export function StageManagerModal({
           {/* Existing Stages List */}
           {!stageToDelete && (
             <div className="space-y-2">
-              <label className="text-xs font-mono uppercase font-bold text-slate-700 block">
+              <label className="text-xs uppercase font-bold text-slate-700 block">
                 Active Stages ({stagesWithCounts.length})
               </label>
 
@@ -256,7 +256,7 @@ export function StageManagerModal({
                       <>
                         <div className="flex items-center gap-3">
                           <StageBadge status={stage.name} color={stage.color} size="md" />
-                          <span className="text-xs font-mono text-slate-500 font-bold">
+                          <span className="text-xs text-slate-500 font-bold">
                             {stage.contactCount} contact{stage.contactCount === 1 ? "" : "s"}
                           </span>
                         </div>
@@ -292,13 +292,13 @@ export function StageManagerModal({
           {/* Add New Stage Form */}
           {!stageToDelete && (
             <form onSubmit={handleAddStage} className="pt-3 border-t border-slate-200 space-y-2">
-              <label className="text-xs font-mono uppercase font-bold text-slate-700 block">
+              <label className="text-xs uppercase font-bold text-slate-700 block">
                 Add a New Stage
               </label>
               <div className="flex items-center gap-2 flex-wrap">
                 {/* Color Swatches */}
                 <div className="flex items-center gap-1.5 pt-1">
-                  <span className="text-[11px] font-mono font-bold text-slate-500 mr-1 uppercase">Color:</span>
+                  <span className="text-[11px] font-bold text-slate-500 mr-1 uppercase">Color:</span>
                   {AVAILABLE_COLORS.map((col) => {
                     const isSelected = newStageColor === col;
                     const bgColors: Record<StageColor, string> = {

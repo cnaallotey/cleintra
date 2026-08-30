@@ -78,7 +78,7 @@ export default function LandingPage() {
       <section className="relative overflow-hidden pt-12 sm:pt-20 px-4 text-center max-w-6xl mx-auto space-y-8">
         
         {/* Top Eyebrow Tag */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#BEF264]/10 border border-[#BEF264]/40 text-[#BEF264] text-xs font-mono font-bold uppercase tracking-wider">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#BEF264]/10 border border-[#BEF264]/40 text-[#BEF264] text-xs font-bold uppercase tracking-wider">
           <Sparkles className="w-3.5 h-3.5 text-[#BEF264]" />
           <span>Zero-Onboarding Sales Engine • 60-Second Setup</span>
         </div>
@@ -158,7 +158,7 @@ export default function LandingPage() {
               <div className="absolute bottom-4 left-4 right-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 p-3.5 bg-[#06180E]/90 border border-emerald-800/80 backdrop-blur-sm text-left">
                 <div className="flex items-center gap-2.5">
                   <div className="h-3 w-3 bg-[#BEF264] animate-ping"></div>
-                  <span className="text-xs font-mono font-bold uppercase text-white tracking-wider">
+                  <span className="text-xs font-bold uppercase text-white tracking-wider">
                     Live Workspace • 10,000+ Deals Tracked Daily
                   </span>
                 </div>
@@ -176,7 +176,7 @@ export default function LandingPage() {
             <div className="bg-[#F4F9F4] text-[#0A1D13] p-5 sm:p-6 border border-[#D1E3D5] flex flex-col justify-between space-y-4">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2 py-0.5 border border-emerald-200">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2 py-0.5 border border-emerald-200">
                     Instant CSV Import
                   </span>
                   <span className="text-xs font-bold text-emerald-700">100% Validated</span>
@@ -207,7 +207,7 @@ export default function LandingPage() {
             <div className="bg-[#06180E] text-white p-5 sm:p-6 border border-emerald-800/40 flex flex-col justify-between space-y-4">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#BEF264] bg-[#BEF264]/10 border border-[#BEF264]/20 px-2 py-0.5">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#BEF264] bg-[#BEF264]/10 border border-[#BEF264]/20 px-2 py-0.5">
                     1-Tap Lead Action
                   </span>
                   <span className="text-xs font-bold text-[#BEF264]">Stage: Follow-up</span>
@@ -246,7 +246,7 @@ export default function LandingPage() {
       {/* ========================================================================= */}
       <section className="border-y border-emerald-900/60 bg-[#0A1D13] py-10 px-4">
         <div className="max-w-6xl mx-auto space-y-5 text-center">
-          <p className="text-xs font-mono uppercase tracking-widest text-[#8FA396]">
+          <p className="text-xs uppercase tracking-widest text-[#8FA396]">
             Built for High-Velocity Sales Teams Across Key Sectors
           </p>
           <div className="flex flex-wrap justify-center items-center gap-2.5">
@@ -268,7 +268,7 @@ export default function LandingPage() {
       {/* ========================================================================= */}
       <section id="how-it-works" className="max-w-6xl mx-auto px-4 space-y-10">
         <div className="text-center space-y-3 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#BEF264]/10 border border-[#BEF264]/30 text-[#BEF264] text-xs font-mono font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#BEF264]/10 border border-[#BEF264]/30 text-[#BEF264] text-xs font-bold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5 text-[#BEF264]" />
             <span>The 4-Step Revenue Architecture</span>
           </div>
@@ -339,7 +339,7 @@ export default function LandingPage() {
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
                       <span
-                        className={`h-8 w-8 flex items-center justify-center font-mono font-black text-xs shrink-0 transition-colors ${
+                        className={`h-8 w-8 flex items-center justify-center font-black text-xs shrink-0 transition-colors ${
                           isActive
                             ? "bg-[#BEF264] text-[#0A1D13]"
                             : "bg-[#0D2A1C] text-emerald-400 border border-emerald-800/80 group-hover:border-[#BEF264]/40"
@@ -348,7 +348,7 @@ export default function LandingPage() {
                         {step.stepNumber}
                       </span>
                       <div>
-                        <span className={`text-[10px] font-mono font-bold uppercase tracking-wider block ${
+                        <span className={`text-[10px] font-bold uppercase tracking-wider block ${
                           isActive ? "text-[#BEF264]" : "text-emerald-500/80"
                         }`}>
                           {step.tagline}
@@ -359,7 +359,7 @@ export default function LandingPage() {
                       </div>
                     </div>
 
-                    <span className={`text-[10px] font-mono font-bold px-2 py-0.5 shrink-0 hidden sm:inline-block ${
+                    <span className={`text-[10px] font-bold px-2 py-0.5 shrink-0 hidden sm:inline-block ${
                       isActive 
                         ? "bg-[#BEF264]/20 text-[#BEF264] border border-[#BEF264]/30" 
                         : "bg-emerald-950/60 text-[#8FA396] border border-emerald-900/40"
@@ -373,7 +373,7 @@ export default function LandingPage() {
                       <p className="text-xs text-[#8FA396] leading-relaxed">
                         {step.description}
                       </p>
-                      <div className="flex items-center gap-1.5 text-[11px] font-mono text-[#BEF264] font-bold">
+                      <div className="flex items-center gap-1.5 text-[11px] text-[#BEF264] font-bold">
                         <Zap className="w-3 h-3 text-[#BEF264]" />
                         <span>{step.stats}</span>
                       </div>
@@ -388,7 +388,7 @@ export default function LandingPage() {
           <div className="lg:col-span-7 bg-[#0D2A1C] border border-emerald-800/60 p-5 sm:p-7 flex flex-col justify-between relative overflow-hidden min-h-[440px]">
             
             {/* Watermark Step Number */}
-            <div className="absolute top-2 right-4 opacity-10 font-mono text-8xl font-black text-[#BEF264] select-none pointer-events-none">
+            <div className="absolute top-2 right-4 opacity-10 text-8xl font-black text-[#BEF264] select-none pointer-events-none">
               0{activeRevenueStep + 1}
             </div>
 
@@ -396,11 +396,11 @@ export default function LandingPage() {
             <div className="flex items-center justify-between border-b border-emerald-800/60 pb-3.5 relative z-10">
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 bg-[#BEF264] animate-pulse"></div>
-                <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#BEF264]">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#BEF264]">
                   Stage 0{activeRevenueStep + 1} • Live Transformation Engine
                 </span>
               </div>
-              <span className="text-[10px] font-mono text-[#8FA396] bg-[#06180E] px-2 py-0.5 border border-emerald-900/80">
+              <span className="text-[10px] text-[#8FA396] bg-[#06180E] px-2 py-0.5 border border-emerald-900/80">
                 Simple CRM Engine v2.4
               </span>
             </div>
@@ -413,16 +413,16 @@ export default function LandingPage() {
                 <div className="space-y-3 animate-in fade-in duration-200">
                   <div className="bg-[#06180E] border border-emerald-800/50 p-4 space-y-3">
                     <div className="flex items-center justify-between text-xs">
-                      <div className="flex items-center gap-2 text-white font-mono font-bold">
+                      <div className="flex items-center gap-2 text-white font-bold">
                         <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
                         <span>wholesale_leads_accra.csv</span>
                       </div>
-                      <span className="px-2 py-0.5 bg-emerald-900/60 text-emerald-300 font-mono text-[10px] border border-emerald-700/50">
+                      <span className="px-2 py-0.5 bg-emerald-900/60 text-emerald-300 text-[10px] border border-emerald-700/50">
                         1,250 ROWS DETECTED
                       </span>
                     </div>
 
-                    <div className="space-y-1.5 font-mono text-[11px]">
+                    <div className="space-y-1.5 text-[11px]">
                       <div className="grid grid-cols-3 gap-2 bg-[#0D2A1C] p-2 text-emerald-400 font-bold border-b border-emerald-800/60 text-[10px]">
                         <span>RAW CLIENT NAME</span>
                         <span>PHONE (MESSY)</span>
@@ -450,7 +450,7 @@ export default function LandingPage() {
                         <CheckCircle2 className="w-3.5 h-3.5 text-[#BEF264]" />
                         Auto-Mapper: 100% matched to CRM fields
                       </span>
-                      <span className="text-[10px] font-mono text-white">0 ERRORS</span>
+                      <span className="text-[10px] text-white">0 ERRORS</span>
                     </div>
                   </div>
                 </div>
@@ -463,25 +463,25 @@ export default function LandingPage() {
                     
                     {/* Before (Messy) */}
                     <div className="bg-[#06180E] border border-rose-900/40 p-3.5 space-y-2">
-                      <span className="text-[10px] font-mono uppercase font-bold text-rose-400 bg-rose-950/80 px-2 py-0.5 border border-rose-800/60 inline-block">
+                      <span className="text-[10px] uppercase font-bold text-rose-400 bg-rose-950/80 px-2 py-0.5 border border-rose-800/60 inline-block">
                         ✕ Raw Input (Breaks Dialers)
                       </span>
-                      <div className="space-y-1.5 font-mono text-xs text-rose-300/90 pt-1">
+                      <div className="space-y-1.5 text-xs text-rose-300/90 pt-1">
                         <div className="p-2 bg-[#0D2A1C]/50 border border-rose-900/30 line-through">024 412 3456</div>
                         <div className="p-2 bg-[#0D2A1C]/50 border border-rose-900/30 line-through">+233-55-987-6543</div>
                         <div className="p-2 bg-[#0D2A1C]/50 border border-rose-900/30 line-through">233208112233</div>
                       </div>
-                      <p className="text-[10px] text-rose-400/80 font-mono pt-1">
+                      <p className="text-[10px] text-rose-400/80 pt-1">
                         Missing codes &amp; invalid spacing.
                       </p>
                     </div>
 
                     {/* After (Cleaned) */}
                     <div className="bg-[#06180E] border border-[#BEF264]/50 p-3.5 space-y-2">
-                      <span className="text-[10px] font-mono uppercase font-bold text-[#BEF264] bg-[#BEF264]/10 px-2 py-0.5 border border-[#BEF264]/30 inline-block">
+                      <span className="text-[10px] uppercase font-bold text-[#BEF264] bg-[#BEF264]/10 px-2 py-0.5 border border-[#BEF264]/30 inline-block">
                         ✓ Simple CRM E.164 Cleaned
                       </span>
-                      <div className="space-y-1.5 font-mono text-xs text-[#BEF264] pt-1">
+                      <div className="space-y-1.5 text-xs text-[#BEF264] pt-1">
                         <div className="p-2 bg-[#0D2A1C] border border-[#BEF264]/30 flex justify-between items-center">
                           <span>+233 24 412 3456</span>
                           <span className="text-[9px] bg-[#BEF264] text-[#0A1D13] font-bold px-1">READY</span>
@@ -495,7 +495,7 @@ export default function LandingPage() {
                           <span className="text-[9px] bg-[#BEF264] text-[#0A1D13] font-bold px-1">READY</span>
                         </div>
                       </div>
-                      <p className="text-[10px] text-[#BEF264] font-mono pt-1">
+                      <p className="text-[10px] text-[#BEF264] pt-1">
                         1-click WhatsApp &amp; cellular dialable.
                       </p>
                     </div>
@@ -512,39 +512,39 @@ export default function LandingPage() {
                     {/* Column 1 */}
                     <div className="bg-[#06180E] border border-sky-800/40 p-2.5 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono font-bold text-sky-400 uppercase">New Lead</span>
-                        <span className="text-[9px] bg-sky-950 text-sky-300 px-1 font-mono">14</span>
+                        <span className="text-[10px] font-bold text-sky-400 uppercase">New Lead</span>
+                        <span className="text-[9px] bg-sky-950 text-sky-300 px-1">14</span>
                       </div>
                       <div className="bg-[#0D2A1C] p-2 border border-sky-900/50 space-y-1 text-left">
                         <p className="text-xs font-bold text-white">Ama Serwaa</p>
                         <p className="text-[10px] text-[#8FA396]">GH₵6,200</p>
-                        <span className="text-[9px] font-mono text-sky-300 bg-sky-950/80 px-1 block w-max">Boutique</span>
+                        <span className="text-[9px] text-sky-300 bg-sky-950/80 px-1 block w-max">Boutique</span>
                       </div>
                     </div>
 
                     {/* Column 2 */}
                     <div className="bg-[#06180E] border border-amber-800/40 p-2.5 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono font-bold text-amber-400 uppercase">Quoted</span>
-                        <span className="text-[9px] bg-amber-950 text-amber-300 px-1 font-mono">8</span>
+                        <span className="text-[10px] font-bold text-amber-400 uppercase">Quoted</span>
+                        <span className="text-[9px] bg-amber-950 text-amber-300 px-1">8</span>
                       </div>
                       <div className="bg-[#0D2A1C] p-2 border border-amber-900/50 space-y-1 text-left">
                         <p className="text-xs font-bold text-white">Nana Osei</p>
                         <p className="text-[10px] text-[#BEF264] font-bold">GH₵24,000</p>
-                        <span className="text-[9px] font-mono text-amber-300 bg-amber-950/80 px-1 block w-max">Wholesale</span>
+                        <span className="text-[9px] text-amber-300 bg-amber-950/80 px-1 block w-max">Wholesale</span>
                       </div>
                     </div>
 
                     {/* Column 3 */}
                     <div className="bg-[#06180E] border border-[#BEF264]/40 p-2.5 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono font-bold text-[#BEF264] uppercase">Won Deal</span>
-                        <span className="text-[9px] bg-[#BEF264] text-[#0A1D13] px-1 font-mono font-bold">28</span>
+                        <span className="text-[10px] font-bold text-[#BEF264] uppercase">Won Deal</span>
+                        <span className="text-[9px] bg-[#BEF264] text-[#0A1D13] px-1 font-bold">28</span>
                       </div>
                       <div className="bg-[#0D2A1C] p-2 border border-[#BEF264]/40 space-y-1 text-left">
                         <p className="text-xs font-bold text-white">Kojo Mensah</p>
                         <p className="text-[10px] text-[#BEF264] font-bold">GH₵18,500</p>
-                        <span className="text-[9px] font-mono text-[#0A1D13] bg-[#BEF264] px-1 font-bold block w-max">PAID ✓</span>
+                        <span className="text-[9px] text-[#0A1D13] bg-[#BEF264] px-1 font-bold block w-max">PAID ✓</span>
                       </div>
                     </div>
 
@@ -553,9 +553,9 @@ export default function LandingPage() {
                   <div className="p-2.5 bg-[#06180E] border border-emerald-800/40 flex items-center justify-between text-xs">
                     <div className="flex items-center gap-2 text-slate-300">
                       <Sliders className="w-3.5 h-3.5 text-[#BEF264]" />
-                      <span>Filtered by: <b className="text-white font-mono">Wholesale &bull; Retail &bull; VIP</b></span>
+                      <span>Filtered by: <b className="text-white">Wholesale &bull; Retail &bull; VIP</b></span>
                     </div>
-                    <span className="text-[#BEF264] font-mono font-bold">Pipeline: GH₵148,700</span>
+                    <span className="text-[#BEF264] font-bold">Pipeline: GH₵148,700</span>
                   </div>
                 </div>
               )}
@@ -568,15 +568,15 @@ export default function LandingPage() {
                       <div>
                         <div className="flex items-center gap-2">
                           <h4 className="text-base font-bold text-white">Kojo Mensah</h4>
-                          <span className="text-[10px] font-mono font-bold uppercase bg-[#BEF264] text-[#0A1D13] px-1.5 py-0.5">
+                          <span className="text-[10px] font-bold uppercase bg-[#BEF264] text-[#0A1D13] px-1.5 py-0.5">
                             STAGE: WON DEAL
                           </span>
                         </div>
-                        <p className="text-xs font-mono text-[#8FA396]">+233 24 412 3456 • Apex Supermarkets Hub</p>
+                        <p className="text-xs text-[#8FA396]">+233 24 412 3456 • Apex Supermarkets Hub</p>
                       </div>
                       <div className="text-right">
-                        <span className="text-sm font-mono font-black text-[#BEF264]">GH₵18,500</span>
-                        <p className="text-[10px] font-mono text-emerald-400">Order Confirmed</p>
+                        <span className="text-sm font-black text-[#BEF264]">GH₵18,500</span>
+                        <p className="text-[10px] text-emerald-400">Order Confirmed</p>
                       </div>
                     </div>
 
@@ -593,7 +593,7 @@ export default function LandingPage() {
 
                     <div className="p-2.5 bg-[#0D2A1C] border border-emerald-800/40 text-xs flex items-center justify-between">
                       <span className="text-[#8FA396]">💬 Interaction Note: &quot;Payment verified via Mobile Money.&quot;</span>
-                      <span className="text-[10px] font-mono text-[#BEF264]">LOGGED TODAY</span>
+                      <span className="text-[10px] text-[#BEF264]">LOGGED TODAY</span>
                     </div>
                   </div>
                 </div>
@@ -602,7 +602,7 @@ export default function LandingPage() {
             </div>
 
             {/* Bottom Progress Controls */}
-            <div className="flex items-center justify-between pt-3 border-t border-emerald-800/60 relative z-10 text-xs font-mono">
+            <div className="flex items-center justify-between pt-3 border-t border-emerald-800/60 relative z-10 text-xs">
               <span className="text-[#8FA396]">Click steps on the left or advance &rarr;</span>
               <button
                 type="button"
@@ -635,7 +635,7 @@ export default function LandingPage() {
                   : "bg-[#06180E] text-[#8FA396] border-emerald-900/60 hover:border-emerald-700 hover:text-white"
               }`}
             >
-              <div className="text-[10px] font-mono uppercase tracking-widest font-bold">PILLAR {item.step}</div>
+              <div className="text-[10px] uppercase tracking-widest font-bold">PILLAR {item.step}</div>
               <div className="text-xs sm:text-sm font-black text-white mt-0.5" style={{ color: activeRevenueStep === i ? "#0A1D13" : "inherit" }}>
                 {item.name}
               </div>
@@ -651,7 +651,7 @@ export default function LandingPage() {
       {/* ========================================================================= */}
       <section id="features" className="max-w-6xl mx-auto px-4 space-y-8">
         <div className="text-center space-y-2">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#BEF264] bg-[#BEF264]/10 border border-[#BEF264]/20 px-3 py-1 inline-block">
+          <span className="text-xs uppercase tracking-widest text-[#BEF264] bg-[#BEF264]/10 border border-[#BEF264]/20 px-3 py-1 inline-block">
             Engineered for High-Conversion
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
@@ -686,12 +686,12 @@ export default function LandingPage() {
                   alt="Retail customer records management"
                   className="w-full h-full object-cover brightness-90"
                 />
-                <div className="absolute bottom-1.5 left-1.5 bg-[#06180E]/90 px-2 py-0.5 text-[10px] font-mono text-[#BEF264] border border-emerald-800">
+                <div className="absolute bottom-1.5 left-1.5 bg-[#06180E]/90 px-2 py-0.5 text-[10px] text-[#BEF264] border border-emerald-800">
                   RETAIL LEADS
                 </div>
               </div>
 
-              <div className="bg-[#06180E] p-3 border border-emerald-800/40 space-y-2 text-xs font-mono">
+              <div className="bg-[#06180E] p-3 border border-emerald-800/40 space-y-2 text-xs">
                 <div className="flex items-center justify-between text-[#8FA396] text-[10px]">
                   <span>COLUMN MAPPING</span>
                   <span className="text-[#BEF264] font-bold">100% OK</span>
@@ -784,7 +784,7 @@ export default function LandingPage() {
               <div className="bg-[#06180E] p-3.5 border border-emerald-800/40 space-y-2 text-xs">
                 <div className="flex items-center justify-between text-[10px] text-[#8FA396]">
                   <span className="font-bold text-emerald-300">TODAY &bull; 10:45 AM</span>
-                  <span className="px-1.5 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800/60 font-mono">INTERESTED</span>
+                  <span className="px-1.5 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800/60">INTERESTED</span>
                 </div>
                 <p className="text-slate-300 text-[11px]">
                   &quot;Client confirmed Mobile Money transfer. Delivery scheduled for tomorrow morning.&quot;
@@ -798,7 +798,7 @@ export default function LandingPage() {
                   alt="Wholesale supplies and distribution order fulfillment"
                   className="w-full h-full object-cover brightness-90"
                 />
-                <div className="absolute bottom-1.5 left-1.5 bg-[#06180E]/90 px-2 py-0.5 text-[10px] font-mono text-[#BEF264] border border-emerald-800">
+                <div className="absolute bottom-1.5 left-1.5 bg-[#06180E]/90 px-2 py-0.5 text-[10px] text-[#BEF264] border border-emerald-800">
                   ORDER FULFILLED
                 </div>
               </div>
@@ -841,7 +841,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 flex-wrap text-[11px] font-mono font-bold">
+            <div className="flex items-center gap-2 flex-wrap text-[11px] font-bold">
               <span className="bg-emerald-200/80 text-emerald-900 px-2.5 py-1">
                 ⚡ 12 hrs/wk saved
               </span>
@@ -859,7 +859,7 @@ export default function LandingPage() {
       {/* ========================================================================= */}
       <section id="compare" className="max-w-5xl mx-auto px-4 space-y-8">
         <div className="text-center space-y-2">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#BEF264] bg-[#BEF264]/10 border border-[#BEF264]/20 px-3 py-1 inline-block">
+          <span className="text-xs uppercase tracking-widest text-[#BEF264] bg-[#BEF264]/10 border border-[#BEF264]/20 px-3 py-1 inline-block">
             Honest Comparison
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
@@ -929,7 +929,7 @@ export default function LandingPage() {
       {/* ========================================================================= */}
       <section id="faq" className="max-w-3xl mx-auto px-4 space-y-6">
         <div className="text-center space-y-2">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#BEF264] bg-[#BEF264]/10 border border-[#BEF264]/20 px-3 py-1 inline-block">
+          <span className="text-xs uppercase tracking-widest text-[#BEF264] bg-[#BEF264]/10 border border-[#BEF264]/20 px-3 py-1 inline-block">
             Frequently Asked Questions
           </span>
           <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">

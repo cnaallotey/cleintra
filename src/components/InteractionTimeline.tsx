@@ -212,7 +212,7 @@ export function InteractionTimeline({
       {isLogging && (
         <form onSubmit={handleCreateLog} className="border-2 border-[#0A1D13] bg-[#F8FAF8] p-4 sm:p-5 space-y-4 animate-in fade-in duration-150">
           <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-            <span className="text-xs font-mono uppercase font-bold text-slate-900">
+            <span className="text-xs uppercase font-bold text-slate-900">
               Record New Interaction
             </span>
             <button
@@ -252,7 +252,7 @@ export function InteractionTimeline({
                 type="datetime-local"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full text-xs font-mono font-bold border border-slate-300 p-2 bg-white focus:outline-hidden focus:ring-1 focus:ring-[#0A1D13]"
+                className="w-full text-xs font-bold border border-slate-300 p-2 bg-white focus:outline-hidden focus:ring-1 focus:ring-[#0A1D13]"
                 required
               />
             </div>
@@ -351,7 +351,7 @@ export function InteractionTimeline({
                         type="datetime-local"
                         value={editDate}
                         onChange={(e) => setEditDate(e.target.value)}
-                        className="text-xs font-mono font-bold border border-slate-300 p-2 bg-white"
+                        className="text-xs font-bold border border-slate-300 p-2 bg-white"
                       />
                     </div>
                     <textarea
@@ -384,13 +384,13 @@ export function InteractionTimeline({
                   <div className="border border-slate-300 bg-white p-4 hover:border-slate-400 transition-all space-y-2.5">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
-                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono font-bold uppercase border ${meta.color}`}>
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold uppercase border ${meta.color}`}>
                           <Icon className="w-3.5 h-3.5" />
                           <span>{act.outcome}</span>
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-2 text-xs text-slate-500 font-mono">
+                      <div className="flex items-center gap-2 text-xs text-slate-500">
                         <span className="flex items-center gap-1 font-bold">
                           <Clock className="w-3.5 h-3.5" />
                           {formattedTime}

@@ -18,6 +18,11 @@ export function NavigationShell({ children }: NavigationShellProps) {
 
   const isLandingPage = pathname === "/";
   const isLoginPage = pathname === "/login";
+  const isDialerPage = pathname?.startsWith("/dial");
+
+  if (isDialerPage) {
+    return <>{children}</>;
+  }
 
   if (isLandingPage) {
     return (

@@ -10,7 +10,7 @@
 
 ---
 
-## Overall System Status (Features 1–11 Complete)
+## Overall System Status (Features 1–13 Complete)
 - [x] **Feature 1: Contact list upload (CSV import) with validation**
 - [x] **Feature 2: Contact record view (name, phone, email, source, status)**
 - [x] **Feature 3: Status/pipeline tracking per contact (customizable stages, sensible defaults)**
@@ -22,3 +22,6 @@
 - [x] **Feature 9: Business Profile & Settings Page (`/settings`)**
 - [x] **Feature 10: Sidebar Navigation & Dedicated Groups Management Route (`/groups`)**
 - [x] **Feature 11: Real-Time Cloud Firestore Sync (Contacts, Groups, Stages, Interactions & Profile)**
+- [x] **Feature 12: Shareable Agent Speed-Dialer & Lead Follow-Up Queue (`/dial/[id]`)**
+- [x] **Feature 13: Lightweight Invoice & Quote Generator (`/invoices` & Contact Integration)**
+- [x] **Typography Normalization: All `font-mono` removed in favor of clean default sans-serif font**

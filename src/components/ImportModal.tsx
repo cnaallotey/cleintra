@@ -188,7 +188,7 @@ export function ImportModal({
         <div className="flex items-center justify-between p-5 bg-[#0A1D13] text-white border-b border-[#0A1D13]">
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-mono text-[10px] font-bold uppercase bg-[#BEF264] text-[#0A1D13] px-2 py-0.5">
+              <span className="text-[10px] font-bold uppercase bg-[#BEF264] text-[#0A1D13] px-2 py-0.5">
                 BULK INTAKE
               </span>
               <h2 className="text-base font-black text-white tracking-tight">Import Contacts (CSV)</h2>
@@ -333,7 +333,7 @@ export function ImportModal({
             <div className="space-y-4">
               
               {/* File details banner */}
-              <div className="flex items-center justify-between bg-slate-100 p-3 text-xs border border-slate-300 font-mono">
+              <div className="flex items-center justify-between bg-slate-100 p-3 text-xs border border-slate-300">
                 <div className="flex items-center gap-2 text-slate-800 font-bold">
                   <FileText className="w-4 h-4 text-[#0A1D13]" />
                   <span>{summary.fileName || "Uploaded CSV"}</span>
@@ -353,9 +353,9 @@ export function ImportModal({
                 <div className="border border-emerald-300 bg-[#E2EFE4] p-3.5 text-[#0A1D13]">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-700" />
-                    <span className="text-xs font-mono font-bold uppercase tracking-wider">Valid Contacts</span>
+                    <span className="text-xs font-bold uppercase tracking-wider">Valid Contacts</span>
                   </div>
-                  <div className="mt-1 text-2xl font-black font-mono">
+                  <div className="mt-1 text-2xl font-black">
                     {summary.validCount}
                   </div>
                   <p className="text-[11px] font-medium opacity-90 mt-0.5">Ready to be imported.</p>
@@ -368,9 +368,9 @@ export function ImportModal({
                 }`}>
                   <div className="flex items-center gap-2">
                     <AlertCircle className={`w-4 h-4 ${summary.errorCount > 0 ? "text-amber-600" : "text-slate-400"}`} />
-                    <span className="text-xs font-mono font-bold uppercase tracking-wider">Invalid Rows</span>
+                    <span className="text-xs font-bold uppercase tracking-wider">Invalid Rows</span>
                   </div>
-                  <div className={`mt-1 text-2xl font-black font-mono ${summary.errorCount > 0 ? "text-amber-700" : "text-slate-700"}`}>
+                  <div className={`mt-1 text-2xl font-black ${summary.errorCount > 0 ? "text-amber-700" : "text-slate-700"}`}>
                     {summary.errorCount}
                   </div>
                   <p className="text-[11px] font-medium mt-0.5 opacity-80">
@@ -392,7 +392,7 @@ export function ImportModal({
                   </button>
 
                   {showErrorDetails && (
-                    <div className="max-h-40 overflow-y-auto divide-y divide-slate-100 p-2 text-xs font-mono">
+                    <div className="max-h-40 overflow-y-auto divide-y divide-slate-100 p-2 text-xs">
                       {summary.errors.map((err, i) => (
                         <div key={i} className="py-1.5 px-2 flex items-start gap-2">
                           <span className="font-bold text-amber-800 shrink-0">Row {err.rowNumber}:</span>

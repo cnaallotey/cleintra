@@ -27,6 +27,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { StageBadge } from "./StageBadge";
+import { ShareDialerModal } from "./ShareDialerModal";
 
 interface ContactListProps {
   contacts: Contact[];
@@ -65,6 +66,7 @@ export function ContactList({
 }: ContactListProps) {
   const [selectedStage, setSelectedStage] = useState<string>(activeStage);
   const [selectedGroup, setSelectedGroup] = useState<string>(activeGroupId);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   const stagesWithCounts = stageSummaries || stages.map((s) => ({ ...s, contactCount: 0 }));
 
@@ -115,7 +117,7 @@ export function ContactList({
           >
             <Folder className="w-3.5 h-3.5" />
             <span>All Groups</span>
-            <span className={`px-1.5 py-0.2 font-mono text-[10px] font-bold ${
+            <span className={`px-1.5 py-0.2 text-[10px] font-bold ${
               selectedGroupFilter === null || selectedGroupFilter === "All"
                 ? "bg-[#BEF264] text-[#0A1D13]" 
                 : "bg-slate-100 text-slate-700"
@@ -138,7 +140,7 @@ export function ContactList({
                 }`}
               >
                 <span>{group.name}</span>
-                <span className={`px-1.5 py-0.2 font-mono text-[10px] font-bold ${
+                <span className={`px-1.5 py-0.2 text-[10px] font-bold ${
                   isSelected
                     ? "bg-[#BEF264] text-[#0A1D13]" 
                     : "bg-slate-100 text-slate-700"
@@ -160,7 +162,7 @@ export function ContactList({
           >
             <span>Unassigned</span>
             {unassignedGroupCount > 0 && (
-              <span className="px-1.5 py-0.2 font-mono text-[10px] font-bold bg-slate-100 text-slate-700">
+              <span className="px-1.5 py-0.2 text-[10px] font-bold bg-slate-100 text-slate-700">
                 {unassignedGroupCount}
               </span>
             )}
@@ -188,8 +190,8 @@ export function ContactList({
                 : "bg-white text-slate-700 hover:bg-slate-100 border-slate-300"
             }`}
           >
-            <span className="font-mono uppercase text-[11px]">All Stages</span>
-            <span className={`px-1.5 py-0.2 font-mono text-[10px] font-bold ${
+            <span className="uppercase text-[11px]">All Stages</span>
+            <span className={`px-1.5 py-0.2 text-[10px] font-bold ${
               selectedStageFilter === null || selectedStageFilter === "All"
                 ? "bg-[#BEF264] text-[#0A1D13]" 
                 : "bg-slate-100 text-slate-700"
@@ -211,8 +213,8 @@ export function ContactList({
                     : "bg-white text-slate-700 hover:bg-slate-100 border-slate-300"
                 }`}
               >
-                <span className="font-mono uppercase text-[11px]">{stage.name}</span>
-                <span className={`px-1.5 py-0.2 font-mono text-[10px] font-bold ${
+                <span className="uppercase text-[11px]">{stage.name}</span>
+                <span className={`px-1.5 py-0.2 text-[10px] font-bold ${
                   isSelected 
                     ? "bg-[#BEF264] text-[#0A1D13]" 
                     : "bg-slate-100 text-slate-700"
@@ -261,14 +263,24 @@ export function ContactList({
           )}
         </div>
 
-        {/* Import Action */}
+        {/* Action Buttons: Speed-Dialer + Import */}
         <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
           <button
             type="button"
-            onClick={onOpenImport}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#BEF264] hover:bg-[#A3E635] px-4 py-2.5 text-xs sm:text-sm font-black text-[#0A1D13] border border-[#BEF264] active:scale-[0.99] transition-all shrink-0"
+            onClick={() => setIsShareModalOpen(true)}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#0A1D13] hover:bg-black px-4 py-2.5 text-xs sm:text-sm font-bold text-[#BEF264] border border-[#0A1D13] active:scale-[0.99] transition-all shrink-0 cursor-pointer"
+            title="Open or share 1-by-1 speed-dialer calling queue"
           >
-            <Upload className="w-4 h-4" />
+            <Phone className="w-4 h-4 text-[#BEF264]" />
+            <span>Speed-Dialer Queue</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={onOpenImport}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#BEF264] hover:bg-[#A3E635] px-4 py-2.5 text-xs sm:text-sm font-black text-[#0A1D13] border border-[#BEF264] active:scale-[0.99] transition-all shrink-0 cursor-pointer"
+          >
+            <Upload className="w-4 h-4 text-[#0A1D13]" />
             <span>Import Contacts (CSV)</span>
           </button>
         </div>
@@ -316,7 +328,7 @@ export function ContactList({
         ) : (
           <div>
             {/* Table Header (Deep Forest Green Strip) */}
-            <div className="hidden md:grid md:grid-cols-12 md:gap-4 px-6 py-3 bg-[#0A1D13] border-b border-[#0A1D13] text-[10px] font-mono font-bold text-[#BEF264] uppercase tracking-wider">
+            <div className="hidden md:grid md:grid-cols-12 md:gap-4 px-6 py-3 bg-[#0A1D13] border-b border-[#0A1D13] text-[10px] font-bold text-[#BEF264] uppercase tracking-wider">
               <div className="col-span-4">Contact Name &amp; Group</div>
               <div className="col-span-3">Phone &amp; Email</div>
               <div className="col-span-2">Last Contacted</div>
@@ -367,14 +379,14 @@ export function ContactList({
                             {contact.name}
                           </Link>
                           {groupName && (
-                            <span className="inline-flex items-center gap-1 px-1.5 py-0.2 bg-[#E2EFE4] text-[#0A1D13] border border-[#C5DDC9] text-[10px] font-mono font-bold uppercase">
+                            <span className="inline-flex items-center gap-1 px-1.5 py-0.2 bg-[#E2EFE4] text-[#0A1D13] border border-[#C5DDC9] text-[10px] font-bold uppercase">
                               <Folder className="w-2.5 h-2.5 text-[#0A1D13]" />
                               {groupName}
                             </span>
                           )}
                         </div>
                         {contact.source && (
-                          <span className="inline-block font-mono text-[10px] text-slate-500 uppercase truncate">
+                          <span className="inline-block text-[10px] text-slate-500 uppercase truncate">
                             Source: {contact.source}
                           </span>
                         )}
@@ -388,7 +400,7 @@ export function ContactList({
                           <Phone className="w-3 h-3 text-slate-500 shrink-0" />
                           <a 
                             href={`tel:${contact.phone}`} 
-                            className="hover:text-[#0A1D13] hover:underline font-mono text-xs truncate"
+                            className="hover:text-[#0A1D13] hover:underline text-xs truncate"
                           >
                             {contact.phone}
                           </a>
@@ -412,9 +424,9 @@ export function ContactList({
 
                     {/* Last Contacted */}
                     <div className="col-span-2 text-xs">
-                      <div className="md:hidden text-[10px] font-mono font-bold text-slate-400 uppercase">Last Contact:</div>
+                      <div className="md:hidden text-[10px] font-bold text-slate-400 uppercase">Last Contact:</div>
                       <div className="text-slate-600 text-xs">
-                        <span className={contact.lastContactedAt ? "text-slate-900 font-bold font-mono text-[11px]" : "text-slate-400 font-mono text-[11px]"}>
+                        <span className={contact.lastContactedAt ? "text-slate-900 font-bold text-[11px]" : "text-slate-400 text-[11px]"}>
                           {formattedLastContact}
                         </span>
                       </div>
@@ -427,7 +439,7 @@ export function ContactList({
                           value={contact.status}
                           onChange={(e) => handleQuickStageChange(e, contact.id)}
                           onClick={(e) => e.stopPropagation()}
-                          className="font-mono text-[10px] uppercase font-bold border border-slate-300 bg-white py-1.5 pl-3 pr-7 focus:outline-hidden focus:ring-1 focus:ring-[#0A1D13] cursor-pointer appearance-none text-slate-900"
+                          className="text-[10px] uppercase font-bold border border-slate-300 bg-white py-1.5 pl-3 pr-7 focus:outline-hidden focus:ring-1 focus:ring-[#0A1D13] cursor-pointer appearance-none text-slate-900"
                         >
                           {stagesWithCounts.map((st) => (
                             <option key={st.id} value={st.name}>
@@ -453,6 +465,20 @@ export function ContactList({
           </div>
         )}
       </div>
+
+      {/* Speed-Dialer Share Modal */}
+      <ShareDialerModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        group={
+          selectedGroup === "unassigned"
+            ? { id: "unassigned", name: "Unassigned Leads", contactCount: unassignedGroupCount }
+            : selectedGroup !== "All"
+            ? groupSummaries.find((g) => g.id === selectedGroup) || { id: selectedGroup, name: "Selected Group", contactCount: contacts.length }
+            : { id: "all", name: "All Contacts", contactCount: totalAllContacts }
+        }
+        stages={stages}
+      />
 
     </div>
   );

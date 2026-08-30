@@ -13,8 +13,10 @@ import {
   Users, 
   Building2,
   ChevronRight,
-  Sparkles
+  Sparkles,
+  Receipt
 } from "lucide-react";
+import { getInvoices } from "@/lib/invoices-store";
 
 interface SidebarProps {
   onNavigate?: () => void;
@@ -25,11 +27,14 @@ export function Sidebar({ onNavigate }: SidebarProps) {
   const router = useRouter();
   const { user, business, signOut } = useAuth();
   const [groupCount, setGroupCount] = useState<number>(0);
+  const [invoiceCount, setInvoiceCount] = useState<number>(0);
 
   useEffect(() => {
     try {
       const groups = getContactGroups();
       setGroupCount(groups.length);
+      const invoices = getInvoices();
+      setInvoiceCount(invoices.length);
     } catch (e) {
       // safe fallback
     }
@@ -54,6 +59,13 @@ export function Sidebar({ onNavigate }: SidebarProps) {
       icon: Folder,
       badge: groupCount > 0 ? groupCount : undefined,
       isActive: pathname === "/groups"
+    },
+    {
+      label: "Invoices & Quotes",
+      href: "/invoices",
+      icon: Receipt,
+      badge: invoiceCount > 0 ? invoiceCount : undefined,
+      isActive: pathname === "/invoices"
     },
     {
       label: "Business Settings",
@@ -81,14 +93,14 @@ export function Sidebar({ onNavigate }: SidebarProps) {
           </div>
           <div>
             <span className="text-sm font-black text-slate-900 tracking-tight leading-tight block">Simple CRM</span>
-            <span className="text-[10px] font-mono uppercase text-[#0A1D13] font-bold block">Lead &amp; Sales Tracker</span>
+            <span className="text-[10px] uppercase text-[#0A1D13] font-bold block">Lead &amp; Sales Tracker</span>
           </div>
         </Link>
       </div>
 
       {/* Navigation Links */}
       <div className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
-        <div className="px-3 pb-2 text-[10px] font-mono uppercase font-bold text-slate-400 tracking-widest">
+        <div className="px-3 pb-2 text-[10px] uppercase font-bold text-slate-400 tracking-widest">
           Workspace
         </div>
 
@@ -116,7 +128,7 @@ export function Sidebar({ onNavigate }: SidebarProps) {
 
               {item.badge !== undefined && (
                 <span
-                  className={`px-2 py-0.5 font-mono text-[10px] font-bold border ${
+                  className={`px-2 py-0.5 text-[10px] font-bold border ${
                     item.isActive
                       ? "bg-[#BEF264] text-[#0A1D13] border-[#BEF264]"
                       : "bg-slate-100 text-slate-700 border-slate-200 group-hover:bg-[#E2EFE4] group-hover:border-[#C5DDC9]"
@@ -144,7 +156,7 @@ export function Sidebar({ onNavigate }: SidebarProps) {
             <p className="text-xs font-extrabold text-slate-900 truncate group-hover:text-[#0A1D13] transition-colors">
               {businessName}
             </p>
-            <p className="text-[11px] font-mono text-slate-500 truncate">
+            <p className="text-[11px] text-slate-500 truncate">
               {user?.email || "owner@business.com"}
             </p>
           </div>

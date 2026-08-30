@@ -15,7 +15,10 @@ import {
   CreateInteractionInput,
   UpdateInteractionInput,
   DashboardFilterParams,
-  DashboardContactsResponse
+  DashboardContactsResponse,
+  DialerQueueOptions,
+  DialerQueueResponse,
+  LogDialerInteractionInput
 } from "@/types/crm";
 import {
   syncContact,
@@ -928,3 +931,125 @@ export function getDashboardContacts(
     unassignedGroupCount
   };
 }
+
+/* -------------------------------------------------------------
+ * Speed-Dialer & Queue Functions
+ * ------------------------------------------------------------- */
+
+export function getDialerQueue(
+  queueId: string,
+  options: DialerQueueOptions = {}
+): DialerQueueResponse {
+  const allContacts = getStoredContacts();
+  const allGroups = getContactGroups();
+  const stages = getPipelineStages();
+
+  let queueTitle = "All Contacts Follow-Up Queue";
+  let targetGroup: ContactGroup | null = null;
+  let matchingContacts: Contact[] = [];
+
+  if (queueId === "all") {
+    queueTitle = "All Contacts Follow-Up Queue";
+    matchingContacts = [...allContacts];
+  } else if (queueId === "unassigned") {
+    queueTitle = "Unassigned Leads Follow-Up Queue";
+    matchingContacts = allContacts.filter((c) => !c.groupId);
+  } else {
+    targetGroup = allGroups.find((g) => g.id === queueId) || null;
+    if (targetGroup) {
+      queueTitle = `${targetGroup.name} Follow-Up Queue`;
+      matchingContacts = allContacts.filter((c) => c.groupId === queueId);
+    } else {
+      // Group not found
+      return {
+        queueId,
+        queueTitle: "Queue Not Found",
+        group: null,
+        contacts: [],
+        totalLeads: 0,
+        neverContactedCount: 0,
+        stages
+      };
+    }
+  }
+
+  // Filter by status if specified
+  if (options.statusFilter && options.statusFilter !== "All") {
+    matchingContacts = matchingContacts.filter(
+      (c) => c.status.toLowerCase() === options.statusFilter!.toLowerCase()
+    );
+  }
+
+  // Priority sorting:
+  // 1. Never contacted (lastContactedAt is falsy)
+  // 2. Contacted before today (sorted by oldest lastContactedAt first)
+  // 3. Contacted today (sorted by latest lastContactedAt at the end)
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+
+  const sorted = [...matchingContacts].sort((a, b) => {
+    const aContacted = a.lastContactedAt ? new Date(a.lastContactedAt).getTime() : 0;
+    const bContacted = b.lastContactedAt ? new Date(b.lastContactedAt).getTime() : 0;
+
+    // Both never contacted: preserve insertion order / createdAt
+    if (!aContacted && !bContacted) {
+      const aCreated = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const bCreated = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+      return aCreated - bCreated;
+    }
+
+    // A never contacted: A goes first
+    if (!aContacted) return -1;
+    // B never contacted: B goes first
+    if (!bContacted) return 1;
+
+    const aToday = aContacted >= todayStart;
+    const bToday = bContacted >= todayStart;
+
+    // A not today, B contacted today: A goes first
+    if (!aToday && bToday) return -1;
+    // B not today, A contacted today: B goes first
+    if (aToday && !bToday) return 1;
+
+    // Both not today: oldest lastContactedAt first
+    // Both today: oldest lastContactedAt first
+    return aContacted - bContacted;
+  });
+
+  const neverContactedCount = sorted.filter((c) => !c.lastContactedAt).length;
+
+  return {
+    queueId,
+    queueTitle,
+    group: targetGroup,
+    contacts: sorted,
+    totalLeads: sorted.length,
+    neverContactedCount,
+    stages
+  };
+}
+
+export function logDialerInteraction(
+  payload: LogDialerInteractionInput
+): { interaction: Interaction; updatedContact: Contact } {
+  const result = logContactInteraction(payload.contactId, {
+    outcome: payload.outcome,
+    date: payload.date || new Date().toISOString(),
+    notes: payload.notes || null
+  });
+
+  let currentContact = result.contact;
+
+  if (payload.newStatus && payload.newStatus !== currentContact.status) {
+    const updatedWithStage = updateContactStage(payload.contactId, payload.newStatus);
+    if (updatedWithStage) {
+      currentContact = updatedWithStage;
+    }
+  }
+
+  return {
+    interaction: result.interaction,
+    updatedContact: currentContact
+  };
+}
+

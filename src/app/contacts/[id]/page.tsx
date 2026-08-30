@@ -33,12 +33,23 @@ import {
   Clock,
   History,
   FileText,
-  Folder
+  Folder,
+  Receipt,
+  Plus,
+  Printer,
+  Share2,
+  CheckCircle2,
+  AlertCircle
 } from "lucide-react";
 import { StageBadge } from "@/components/StageBadge";
 import { InteractionTimeline } from "@/components/InteractionTimeline";
 import { AuthGuard } from "@/components/AuthGuard";
 import { ContactDetailSkeleton } from "@/components/Skeletons";
+import { Invoice } from "@/types/invoices";
+import { getInvoicesForContact, deleteInvoice } from "@/lib/invoices-store";
+import { formatInvoiceCurrency, generateWhatsAppInvoiceLink } from "@/lib/invoice-calculations";
+import { InvoiceModal } from "@/components/InvoiceModal";
+import { InvoiceViewModal } from "@/components/InvoiceViewModal";
 
 export default function ContactDetailPage() {
   const params = useParams();
@@ -49,9 +60,16 @@ export default function ContactDetailPage() {
   const [stages, setStages] = useState<PipelineStage[]>([]);
   const [groups, setGroups] = useState<ContactGroup[]>([]);
   const [interactions, setInteractions] = useState<Interaction[]>([]);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState(true);
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [statusNotification, setStatusNotification] = useState<string | null>(null);
+
+  // Invoice modal state
+  const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [editingInvoice, setEditingInvoice] = useState<Invoice | null>(null);
 
   const loadData = () => {
     if (contactId) {
@@ -59,10 +77,12 @@ export default function ContactDetailPage() {
       const loadedStages = getPipelineStages();
       const loadedGroups = getContactGroups();
       const loadedInteractions = getContactInteractions(contactId);
+      const loadedInvoices = getInvoicesForContact(contactId);
       setContact(found);
       setStages(loadedStages);
       setGroups(loadedGroups);
       setInteractions(loadedInteractions);
+      setInvoices(loadedInvoices);
       setLoading(false);
     }
   };
@@ -175,14 +195,14 @@ export default function ContactDetailPage() {
         <div className="flex items-center justify-between">
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2 text-xs font-bold font-mono uppercase text-slate-700 hover:text-[#0A1D13] transition-colors py-1.5 px-2.5 bg-white border border-slate-300 hover:border-slate-400"
+            className="inline-flex items-center gap-2 text-xs font-bold uppercase text-slate-700 hover:text-[#0A1D13] transition-colors py-1.5 px-2.5 bg-white border border-slate-300 hover:border-slate-400"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Contacts</span>
           </Link>
 
           {statusNotification && (
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#0A1D13] text-[#BEF264] text-xs font-mono font-bold uppercase animate-in fade-in">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#0A1D13] text-[#BEF264] text-xs font-bold uppercase animate-in fade-in">
               <Check className="w-3.5 h-3.5" />
               <span>{statusNotification}</span>
             </div>
@@ -204,14 +224,14 @@ export default function ContactDetailPage() {
                 <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                   {/* Lead Source Badge */}
                   {contact.source && (
-                    <span className="inline-flex items-center gap-1 bg-slate-100 px-2 py-0.5 text-xs font-mono font-bold text-slate-700 border border-slate-300 uppercase">
+                    <span className="inline-flex items-center gap-1 bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-700 border border-slate-300 uppercase">
                       <Tag className="w-3 h-3 text-slate-500" />
                       {contact.source}
                     </span>
                   )}
                   {/* Group Badge */}
                   {assignedGroupName && (
-                    <span className="inline-flex items-center gap-1 bg-[#E2EFE4] px-2 py-0.5 text-xs font-mono font-bold text-[#0A1D13] border border-[#C5DDC9] uppercase">
+                    <span className="inline-flex items-center gap-1 bg-[#E2EFE4] px-2 py-0.5 text-xs font-bold text-[#0A1D13] border border-[#C5DDC9] uppercase">
                       <Folder className="w-3 h-3 text-[#0A1D13]" />
                       {assignedGroupName}
                     </span>
@@ -222,14 +242,14 @@ export default function ContactDetailPage() {
 
             {/* Stage Selector Dropdown */}
             <div className="flex flex-col sm:items-end gap-1">
-              <label className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider">
+              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                 Pipeline Stage
               </label>
               <div className="relative">
                 <select
                   value={contact.status}
                   onChange={handleStageChange}
-                  className="w-full sm:w-auto border border-slate-300 bg-white py-2 pl-3.5 pr-8 text-xs font-bold text-slate-900 hover:border-slate-400 focus:outline-hidden focus:ring-1 focus:ring-[#0A1D13] appearance-none cursor-pointer font-mono uppercase"
+                  className="w-full sm:w-auto border border-slate-300 bg-white py-2 pl-3.5 pr-8 text-xs font-bold text-slate-900 hover:border-slate-400 focus:outline-hidden focus:ring-1 focus:ring-[#0A1D13] appearance-none cursor-pointer uppercase"
                 >
                   {stages.map((st) => (
                     <option key={st.id} value={st.name}>
@@ -288,12 +308,12 @@ export default function ContactDetailPage() {
                 <Phone className="w-5 h-5" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider">Phone Number</div>
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Phone Number</div>
                 {contact.phone ? (
                   <div className="flex items-center justify-between gap-2 mt-1">
                     <a 
                       href={`tel:${contact.phone}`} 
-                      className="text-base font-bold text-slate-900 hover:text-[#0A1D13] font-mono truncate"
+                      className="text-base font-bold text-slate-900 hover:text-[#0A1D13] truncate"
                     >
                       {contact.phone}
                     </a>
@@ -318,11 +338,11 @@ export default function ContactDetailPage() {
                 <Mail className="w-5 h-5" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider">Email Address</div>
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Email Address</div>
                 {contact.email ? (
                   <a 
                     href={`mailto:${contact.email}`} 
-                    className="text-base font-bold text-slate-900 hover:text-[#0A1D13] block mt-1 truncate text-xs sm:text-sm font-mono"
+                    className="text-base font-bold text-slate-900 hover:text-[#0A1D13] block mt-1 truncate text-xs sm:text-sm"
                   >
                     {contact.email}
                   </a>
@@ -338,12 +358,12 @@ export default function ContactDetailPage() {
                 <Folder className="w-5 h-5" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider">Assigned Group</div>
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Assigned Group</div>
                 <div className="relative mt-1">
                   <select
                     value={contact.groupId || ""}
                     onChange={handleGroupChange}
-                    className="w-full border border-slate-300 bg-white py-1.5 pl-2.5 pr-7 text-xs font-bold text-slate-800 focus:outline-hidden focus:ring-1 focus:ring-[#0A1D13] appearance-none font-mono"
+                    className="w-full border border-slate-300 bg-white py-1.5 pl-2.5 pr-7 text-xs font-bold text-slate-800 focus:outline-hidden focus:ring-1 focus:ring-[#0A1D13] appearance-none"
                   >
                     <option value="">None (Unassigned / General)</option>
                     {groups.map((grp) => (
@@ -363,8 +383,8 @@ export default function ContactDetailPage() {
                 <History className="w-5 h-5" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider">Last Contacted</div>
-                <div className="text-xs sm:text-sm font-bold font-mono text-slate-900 mt-1">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Last Contacted</div>
+                <div className="text-xs sm:text-sm font-bold text-slate-900 mt-1">
                   {formattedLastContacted}
                 </div>
               </div>
@@ -375,7 +395,7 @@ export default function ContactDetailPage() {
           {/* Initial Notes Box */}
           {contact.notes && (
             <div className="pt-2 border-t border-slate-200">
-              <div className="flex items-center gap-2 text-xs font-mono uppercase font-bold text-slate-500 mb-2">
+              <div className="flex items-center gap-2 text-xs uppercase font-bold text-slate-500 mb-2">
                 <FileText className="w-4 h-4 text-slate-400" />
                 Initial Import Note
               </div>
@@ -395,6 +415,164 @@ export default function ContactDetailPage() {
             onInteractionsChanged={handleInteractionsChanged}
           />
         </div>
+
+        {/* Invoices & Quotes Card (Feature 13) */}
+        <div className="bg-white p-6 sm:p-8 border border-slate-300 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center bg-[#0A1D13] text-[#BEF264] font-black text-sm border border-[#0A1D13]">
+                <Receipt className="w-4 h-4" />
+              </div>
+              <div>
+                <h3 className="text-base font-black text-slate-900 tracking-tight">
+                  Invoices &amp; Quotations
+                </h3>
+                <p className="text-xs text-slate-500 font-medium">
+                  {invoices.length} {invoices.length === 1 ? "document" : "documents"} issued to {contact.name}
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                setEditingInvoice(null);
+                setIsInvoiceModalOpen(true);
+              }}
+              className="inline-flex items-center justify-center gap-1.5 bg-[#BEF264] hover:bg-[#A3E635] text-[#0A1D13] text-xs font-black px-3.5 py-2 border border-[#BEF264] transition-colors cursor-pointer"
+            >
+              <Plus className="w-4 h-4 text-[#0A1D13]" />
+              <span>Create Invoice for {contact.name.split(" ")[0]}</span>
+            </button>
+          </div>
+
+          {invoices.length === 0 ? (
+            <div className="p-8 text-center bg-[#F8FAF8] border border-dashed border-slate-300 space-y-2">
+              <div className="text-xs font-bold text-slate-700">No invoices or quotes issued yet</div>
+              <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                Create a professional invoice or pricing quotation for {contact.name} and send it directly via WhatsApp.
+              </p>
+            </div>
+          ) : (
+            <div className="divide-y divide-slate-200 border border-slate-200">
+              {invoices.map((inv) => {
+                const { url: whatsAppUrl } = generateWhatsAppInvoiceLink(inv);
+                return (
+                  <div
+                    key={inv.id}
+                    className="p-3.5 bg-white hover:bg-[#F8FAF8] transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                  >
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedInvoice(inv);
+                            setIsViewModalOpen(true);
+                          }}
+                          className="font-black text-slate-900 hover:text-[#0A1D13] hover:underline cursor-pointer"
+                        >
+                          {inv.documentNumber}
+                        </button>
+                        <span
+                          className={`text-[9px] font-bold uppercase px-1.5 py-0.2 border ${
+                            inv.type === "quote"
+                              ? "bg-purple-100 text-purple-800 border-purple-200"
+                              : "bg-blue-100 text-blue-800 border-blue-200"
+                          }`}
+                        >
+                          {inv.type}
+                        </span>
+                      </div>
+                      <div className="text-slate-500 text-[11px]">
+                        Issued {inv.issueDate} • Due {inv.dueDate}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between sm:justify-end gap-3">
+                      <div className="text-right">
+                        <div className="font-black text-slate-900">
+                          {formatInvoiceCurrency(inv.total, inv.currency)}
+                        </div>
+                        <div className="text-[10px] font-bold uppercase">
+                          {inv.status === "paid" ? (
+                            <span className="text-emerald-700">Paid ✓</span>
+                          ) : inv.status === "sent" ? (
+                            <span className="text-amber-700">Sent (Pending)</span>
+                          ) : (
+                            <span className="text-slate-500">Draft</span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-1">
+                        <a
+                          href={whatsAppUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Share on WhatsApp"
+                          className="p-1.5 text-slate-700 hover:text-[#0A1D13] hover:bg-[#BEF264] border border-slate-300 transition-colors"
+                        >
+                          <Share2 className="w-3.5 h-3.5" />
+                        </a>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedInvoice(inv);
+                            setIsViewModalOpen(true);
+                          }}
+                          title="View / Print"
+                          className="p-1.5 text-slate-700 hover:text-[#0A1D13] hover:bg-[#E2EFE4] border border-slate-300 transition-colors cursor-pointer"
+                        >
+                          <Printer className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Invoice Creation Modal */}
+        {isInvoiceModalOpen && (
+          <InvoiceModal
+            isOpen={isInvoiceModalOpen}
+            onClose={() => setIsInvoiceModalOpen(false)}
+            onSaved={() => {
+              loadData();
+              setIsInvoiceModalOpen(false);
+            }}
+            preSelectedContactId={contact.id}
+            editInvoice={editingInvoice}
+          />
+        )}
+
+        {/* Invoice View Modal */}
+        {isViewModalOpen && selectedInvoice && (
+          <InvoiceViewModal
+            isOpen={isViewModalOpen}
+            invoice={selectedInvoice}
+            onClose={() => {
+              setIsViewModalOpen(false);
+              setSelectedInvoice(null);
+            }}
+            onEdit={(inv) => {
+              setIsViewModalOpen(false);
+              setEditingInvoice(inv);
+              setIsInvoiceModalOpen(true);
+            }}
+            onDeleted={() => {
+              loadData();
+            }}
+            onStatusChanged={(updated) => {
+              setSelectedInvoice(updated);
+              loadData();
+            }}
+          />
+        )}
 
       </div>
     </AuthGuard>

@@ -19,6 +19,7 @@ import {
 } from "@/lib/contacts-store";
 import { AuthGuard } from "@/components/AuthGuard";
 import { ImportModal } from "@/components/ImportModal";
+import { ShareDialerModal } from "@/components/ShareDialerModal";
 import { StageBadge } from "@/components/StageBadge";
 import { GroupsSkeleton } from "@/components/Skeletons";
 import { 
@@ -36,7 +37,9 @@ import {
   ChevronDown, 
   ExternalLink,
   Plus,
-  ArrowRight
+  ArrowRight,
+  PhoneCall,
+  Share2
 } from "lucide-react";
 
 export default function GroupsPage() {
@@ -60,6 +63,9 @@ export default function GroupsPage() {
 
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [targetImportGroupId, setTargetImportGroupId] = useState<string | null>(null);
+
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [selectedShareGroup, setSelectedShareGroup] = useState<ContactGroupWithCount | null>(null);
 
   const [notification, setNotification] = useState<string | null>(null);
 
@@ -163,7 +169,7 @@ export default function GroupsPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="font-mono text-[10px] font-bold uppercase tracking-wider bg-[#0A1D13] text-[#BEF264] px-2 py-0.5 border border-[#0A1D13]">
+              <span className="text-[10px] font-bold uppercase tracking-wider bg-[#0A1D13] text-[#BEF264] px-2 py-0.5 border border-[#0A1D13]">
                 SEGMENTATION
               </span>
             </div>
@@ -219,8 +225,8 @@ export default function GroupsPage() {
               <Folder className="w-6 h-6" />
             </div>
             <div>
-              <div className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider">Total Groups</div>
-              <div className="text-2xl font-black font-mono text-slate-900 mt-0.5">{groups.length}</div>
+              <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Total Groups</div>
+              <div className="text-2xl font-black text-slate-900 mt-0.5">{groups.length}</div>
             </div>
           </div>
 
@@ -230,8 +236,8 @@ export default function GroupsPage() {
               <Users className="w-6 h-6" />
             </div>
             <div>
-              <div className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider">Grouped Contacts</div>
-              <div className="text-2xl font-black font-mono text-slate-900 mt-0.5">{totalSegmentedContacts}</div>
+              <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Grouped Contacts</div>
+              <div className="text-2xl font-black text-slate-900 mt-0.5">{totalSegmentedContacts}</div>
             </div>
           </div>
 
@@ -242,14 +248,14 @@ export default function GroupsPage() {
                 <UserMinus className="w-6 h-6" />
               </div>
               <div>
-                <div className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider">Unassigned Leads</div>
-                <div className="text-2xl font-black font-mono text-slate-900 mt-0.5">{unassignedContacts.length}</div>
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Unassigned Leads</div>
+                <div className="text-2xl font-black text-slate-900 mt-0.5">{unassignedContacts.length}</div>
               </div>
             </div>
             {unassignedContacts.length > 0 && (
               <Link
                 href="/dashboard?group=unassigned"
-                className="text-xs font-mono font-bold text-[#0A1D13] hover:underline flex items-center gap-1"
+                className="text-xs font-bold text-[#0A1D13] hover:underline flex items-center gap-1"
               >
                 <span>VIEW</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -263,7 +269,7 @@ export default function GroupsPage() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-black text-slate-900 tracking-tight">All Contact Groups</h2>
-            <span className="text-xs font-mono font-bold text-slate-500">
+            <span className="text-xs font-bold text-slate-500">
               {groups.length} {groups.length === 1 ? "group" : "groups"} configured
             </span>
           </div>
@@ -314,12 +320,12 @@ export default function GroupsPage() {
                       
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex items-center gap-3 min-w-0">
-                          <div className="flex h-10 w-10 items-center justify-center bg-[#0A1D13] text-[#BEF264] font-black text-sm shrink-0 border border-[#0A1D13]">
+                          <div className="flex h-11 w-11 items-center justify-center bg-[#0A1D13] text-[#BEF264] font-black text-sm shrink-0 border border-[#0A1D13]">
                             {group.name.charAt(0).toUpperCase()}
                           </div>
                           
                           {isEditing ? (
-                            <div className="flex-1 space-y-1.5">
+                            <div className="flex-1 space-y-1.5 min-w-0">
                               <input
                                 type="text"
                                 value={editingName}
@@ -334,14 +340,14 @@ export default function GroupsPage() {
                                 <button
                                   type="button"
                                   onClick={() => handleSaveRename(group.id)}
-                                  className="text-xs font-black bg-[#BEF264] text-[#0A1D13] border border-[#BEF264] px-2.5 py-1"
+                                  className="text-xs font-black bg-[#BEF264] text-[#0A1D13] border border-[#BEF264] px-2.5 py-1 cursor-pointer"
                                 >
                                   Save
                                 </button>
                                 <button
                                   type="button"
                                   onClick={() => setEditingGroupId(null)}
-                                  className="text-xs font-bold text-slate-700 px-2 py-1 border border-slate-300 hover:bg-slate-100"
+                                  className="text-xs font-bold text-slate-700 px-2 py-1 border border-slate-300 hover:bg-slate-100 cursor-pointer"
                                 >
                                   Cancel
                                 </button>
@@ -349,23 +355,26 @@ export default function GroupsPage() {
                             </div>
                           ) : (
                             <div className="min-w-0">
-                              <h3 className="text-base font-black text-slate-900 truncate">
+                              <h3 className="text-base font-black text-slate-900 truncate" title={group.name}>
                                 {group.name}
                               </h3>
-                              <p className="text-xs font-mono text-slate-500 mt-0.5">
-                                {group.contactCount} {group.contactCount === 1 ? "contact" : "contacts"} assigned
-                              </p>
+                              <div className="flex items-center gap-2 mt-1">
+                                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 border border-slate-200">
+                                  <Users className="w-3 h-3 text-slate-500" />
+                                  <span>{group.contactCount} {group.contactCount === 1 ? "contact" : "contacts"}</span>
+                                </span>
+                              </div>
                             </div>
                           )}
                         </div>
 
                         {!isEditing && (
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-1 shrink-0">
                             <button
                               type="button"
                               onClick={() => handleStartRename(group)}
                               title="Rename group"
-                              className="p-1.5 text-slate-400 hover:text-black hover:bg-slate-100 transition-colors"
+                              className="p-1.5 text-slate-400 hover:text-black hover:bg-slate-100 transition-colors border border-transparent hover:border-slate-200 cursor-pointer"
                             >
                               <Edit3 className="w-4 h-4" />
                             </button>
@@ -373,7 +382,7 @@ export default function GroupsPage() {
                               type="button"
                               onClick={() => setDeletingGroupId(group.id)}
                               title="Delete group"
-                              className="p-1.5 text-slate-400 hover:text-rose-700 hover:bg-rose-50 transition-colors"
+                              className="p-1.5 text-slate-400 hover:text-rose-700 hover:bg-rose-50 transition-colors border border-transparent hover:border-rose-200 cursor-pointer"
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>
@@ -394,14 +403,14 @@ export default function GroupsPage() {
                             <button
                               type="button"
                               onClick={() => handleDeleteGroup(group.id)}
-                              className="px-3 py-1.5 bg-rose-600 text-white font-bold hover:bg-rose-700 text-xs"
+                              className="px-3 py-1.5 bg-rose-600 text-white font-bold hover:bg-rose-700 text-xs cursor-pointer"
                             >
                               Yes, Delete Group
                             </button>
                             <button
                               type="button"
                               onClick={() => setDeletingGroupId(null)}
-                              className="px-3 py-1.5 bg-white border border-slate-300 text-slate-700 font-bold hover:bg-slate-50 text-xs"
+                              className="px-3 py-1.5 bg-white border border-slate-300 text-slate-700 font-bold hover:bg-slate-50 text-xs cursor-pointer"
                             >
                               Cancel
                             </button>
@@ -409,50 +418,64 @@ export default function GroupsPage() {
                         </div>
                       )}
 
-                      {/* Group Action Buttons */}
-                      <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-200">
-                        <div className="flex items-center gap-2">
-                          <button
-                            type="button"
-                            onClick={() => setExpandedGroupId(isExpanded ? null : group.id)}
-                            className="inline-flex items-center gap-1 text-xs font-bold text-slate-700 hover:text-[#0A1D13] px-2.5 py-1.5 hover:bg-[#F4F9F4] transition-colors"
-                          >
-                            {isExpanded ? (
-                              <>
-                                <ChevronDown className="w-3.5 h-3.5 text-[#0A1D13]" />
-                                <span>Hide Members</span>
-                              </>
-                            ) : (
-                              <>
-                                <ChevronRight className="w-3.5 h-3.5" />
-                                <span>View Members ({group.contactCount})</span>
-                              </>
-                            )}
-                          </button>
-
-                          <Link
-                            href={`/dashboard?group=${group.id}`}
-                            className="inline-flex items-center gap-1 text-xs font-bold text-[#0A1D13] hover:underline px-2.5 py-1.5 hover:bg-[#E2EFE4] transition-colors"
-                          >
-                            <span>Open Pipeline</span>
-                            <ExternalLink className="w-3 h-3" />
-                          </Link>
-                        </div>
+                      {/* Dedicated 2-Button Action Bar */}
+                      <div className="grid grid-cols-2 gap-2 pt-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedShareGroup(group);
+                            setIsShareModalOpen(true);
+                          }}
+                          className="inline-flex items-center justify-center gap-1.5 text-xs font-black text-[#0A1D13] bg-[#BEF264] hover:bg-[#A3E635] px-3 py-2 border border-[#BEF264] transition-colors cursor-pointer whitespace-nowrap shadow-none"
+                          title="Share calling queue with customer agents"
+                        >
+                          <PhoneCall className="w-3.5 h-3.5 text-[#0A1D13] shrink-0" />
+                          <span>Share Dial Link</span>
+                        </button>
 
                         <button
                           type="button"
                           onClick={() => handleOpenImportForGroup(group.id)}
-                          className="inline-flex items-center gap-1 text-xs font-bold text-[#0A1D13] bg-[#E2EFE4] hover:bg-[#C5DDC9] px-3 py-1.5 border border-[#C5DDC9] transition-colors"
+                          className="inline-flex items-center justify-center gap-1.5 text-xs font-bold text-[#0A1D13] bg-[#E2EFE4] hover:bg-[#C5DDC9] px-3 py-2 border border-[#C5DDC9] transition-colors cursor-pointer whitespace-nowrap shadow-none"
                         >
-                          <Upload className="w-3 h-3 text-[#0A1D13]" />
+                          <Upload className="w-3.5 h-3.5 text-[#0A1D13] shrink-0" />
                           <span>Import CSV</span>
                         </button>
+                      </div>
+
+                      {/* Navigation & Drawer Toggle Strip */}
+                      <div className="flex items-center justify-between gap-2 pt-3 border-t border-slate-200 text-xs">
+                        <button
+                          type="button"
+                          onClick={() => setExpandedGroupId(isExpanded ? null : group.id)}
+                          className="inline-flex items-center gap-1 font-bold text-slate-700 hover:text-[#0A1D13] px-2 py-1 hover:bg-[#F4F9F4] transition-colors cursor-pointer whitespace-nowrap"
+                        >
+                          {isExpanded ? (
+                            <>
+                              <ChevronDown className="w-3.5 h-3.5 text-[#0A1D13]" />
+                              <span>Hide Members</span>
+                            </>
+                          ) : (
+                            <>
+                              <ChevronRight className="w-3.5 h-3.5" />
+                              <span>View Members ({group.contactCount})</span>
+                            </>
+                          )}
+                        </button>
+
+                        <Link
+                          href={`/dashboard?group=${group.id}`}
+                          className="inline-flex items-center gap-1 font-bold text-[#0A1D13] hover:underline px-2 py-1 hover:bg-[#E2EFE4] transition-colors whitespace-nowrap"
+                        >
+                          <span>Open Pipeline</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </Link>
                       </div>
 
                       {/* Expandable Group Members Drawer */}
                       {isExpanded && (
                         <div className="pt-3 border-t border-slate-200 space-y-2 animate-in fade-in duration-150">
-                          <div className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider">
+                          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                             Members of {group.name}
                           </div>
 
@@ -474,7 +497,7 @@ export default function GroupsPage() {
                                     >
                                       {member.name}
                                     </Link>
-                                    <div className="text-[11px] font-mono text-slate-500 truncate">
+                                    <div className="text-[11px] text-slate-500 truncate">
                                       {member.phone || member.email || "No phone/email"}
                                     </div>
                                   </div>
@@ -535,7 +558,7 @@ export default function GroupsPage() {
 
                 <form onSubmit={handleCreateGroup} className="space-y-4">
                   <div className="space-y-1.5">
-                    <label className="block text-xs font-mono uppercase font-bold text-slate-700">
+                    <label className="block text-xs uppercase font-bold text-slate-700">
                       Group Name <span className="text-rose-500">*</span>
                     </label>
                     <input
@@ -579,6 +602,14 @@ export default function GroupsPage() {
           onClose={() => setIsImportModalOpen(false)}
           onImportSuccess={handleImportSuccess}
           defaultGroupId={targetImportGroupId}
+        />
+
+        {/* Speed-Dialer Share Modal */}
+        <ShareDialerModal
+          isOpen={isShareModalOpen}
+          onClose={() => setIsShareModalOpen(false)}
+          group={selectedShareGroup}
+          stages={stages}
         />
 
       </div>

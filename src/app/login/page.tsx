@@ -118,7 +118,7 @@ function LoginFormContent() {
         </div>
 
         {/* Tab Switcher */}
-        <div className="grid grid-cols-2 p-1 bg-slate-100 border border-slate-300 text-xs font-bold font-mono uppercase">
+        <div className="grid grid-cols-2 p-1 bg-slate-100 border border-slate-300 text-xs font-bold uppercase">
           <button
             type="button"
             onClick={() => switchMode("signin")}
@@ -176,7 +176,7 @@ function LoginFormContent() {
 
           <div className="relative flex items-center justify-center">
             <div className="border-t border-slate-200 w-full" />
-            <span className="bg-white px-3 text-[11px] font-mono uppercase font-bold text-slate-400 absolute">
+            <span className="bg-white px-3 text-[11px] uppercase font-bold text-slate-400 absolute">
               Or with email
             </span>
           </div>
@@ -194,7 +194,7 @@ function LoginFormContent() {
             {/* Business Name Field (Sign Up Only) */}
             {mode === "signup" && (
               <div className="space-y-1.5 animate-in fade-in">
-                <label className="block text-xs font-mono uppercase font-bold text-slate-700">
+                <label className="block text-xs uppercase font-bold text-slate-700">
                   Business / Shop Name <span className="text-rose-500">*</span>
                 </label>
                 <div className="relative">
@@ -213,7 +213,7 @@ function LoginFormContent() {
 
             {/* Email Field */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-mono uppercase font-bold text-slate-700">
+              <label className="block text-xs uppercase font-bold text-slate-700">
                 Email Address <span className="text-rose-500">*</span>
               </label>
               <div className="relative">
@@ -231,7 +231,7 @@ function LoginFormContent() {
 
             {/* Password Field */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-mono uppercase font-bold text-slate-700">
+              <label className="block text-xs uppercase font-bold text-slate-700">
                 Password <span className="text-rose-500">*</span>
               </label>
               <div className="relative">

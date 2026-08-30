@@ -17,7 +17,8 @@ import {
   Contact, 
   ContactGroup, 
   PipelineStage, 
-  Interaction 
+  Interaction,
+  Invoice
 } from "@/types/crm";
 import { BusinessAccount } from "@/types/auth";
 
@@ -48,6 +49,11 @@ function getStagesColRef(businessId: string) {
 function getInteractionsColRef(businessId: string) {
   if (!db) return null;
   return collection(db, "businesses", businessId, "interactions");
+}
+
+function getInvoicesColRef(businessId: string) {
+  if (!db) return null;
+  return collection(db, "businesses", businessId, "invoices");
 }
 
 /* -------------------------------------------------------------
@@ -368,3 +374,49 @@ export async function initializeBusinessInFirestore(
     console.warn("initializeBusinessInFirestore error:", e);
   }
 }
+
+/* -------------------------------------------------------------
+ * Invoices & Quotes Sync (Feature 13)
+ * ------------------------------------------------------------- */
+
+export async function syncInvoice(businessId: string, invoice: Invoice): Promise<void> {
+  if (!db) return;
+  const docRef = doc(db, "businesses", businessId, "invoices", invoice.id);
+  try {
+    await setDoc(docRef, invoice, { merge: true });
+  } catch (e) {
+    console.warn("Firestore syncInvoice warning:", e);
+  }
+}
+
+export async function syncDeleteInvoice(businessId: string, invoiceId: string): Promise<void> {
+  if (!db) return;
+  const docRef = doc(db, "businesses", businessId, "invoices", invoiceId);
+  try {
+    await deleteDoc(docRef);
+  } catch (e) {
+    console.warn("Firestore syncDeleteInvoice warning:", e);
+  }
+}
+
+export function subscribeToInvoices(
+  businessId: string,
+  onUpdate: (invoices: Invoice[]) => void,
+  onError?: (err: Error) => void
+): Unsubscribe {
+  const colRef = getInvoicesColRef(businessId);
+  if (!colRef) return () => {};
+
+  return onSnapshot(
+    colRef,
+    (snapshot) => {
+      const invoices: Invoice[] = snapshot.docs.map((d) => d.data() as Invoice);
+      onUpdate(invoices);
+    },
+    (err) => {
+      console.warn("Firestore invoices subscription error:", err);
+      if (onError) onError(err);
+    }
+  );
+}
+

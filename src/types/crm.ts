@@ -128,3 +128,29 @@ export interface DashboardContactsResponse {
   totalCount: number;
   filteredCount: number;
 }
+
+export interface DialerQueueOptions {
+  statusFilter?: string | null;
+  limit?: number;
+}
+
+export interface DialerQueueResponse {
+  queueId: string;
+  queueTitle: string;
+  group?: ContactGroup | null;
+  contacts: Contact[];
+  totalLeads: number;
+  neverContactedCount: number;
+  stages: PipelineStage[];
+}
+
+export interface LogDialerInteractionInput {
+  contactId: string;
+  outcome: InteractionOutcome;
+  newStatus?: string | null;
+  notes?: string | null;
+  date?: string;
+}
+
+
+export * from "./invoices";

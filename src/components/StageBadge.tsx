@@ -77,7 +77,7 @@ export function StageBadge({ status, color, className = "", size = "md" }: Stage
 
   return (
     <span
-      className={`inline-flex items-center font-mono font-bold uppercase tracking-wider border ${theme.bg} ${theme.text} ${theme.border} ${sizeClasses[size]} ${className}`}
+      className={`inline-flex items-center font-bold uppercase tracking-wider border ${theme.bg} ${theme.text} ${theme.border} ${sizeClasses[size]} ${className}`}
     >
       <span className={`shrink-0 ${theme.dot} ${size === "sm" ? "h-1.5 w-1.5" : "h-2 w-2"}`} />
       <span>{status}</span>

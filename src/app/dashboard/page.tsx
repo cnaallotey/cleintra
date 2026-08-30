@@ -101,7 +101,7 @@ export default function DashboardPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="font-mono text-[10px] font-bold uppercase tracking-wider bg-[#0A1D13] text-[#BEF264] px-2 py-0.5 border border-[#0A1D13]">
+              <span className="text-[10px] font-bold uppercase tracking-wider bg-[#0A1D13] text-[#BEF264] px-2 py-0.5 border border-[#0A1D13]">
                 ACTIVE PIPELINE
               </span>
             </div>
@@ -117,8 +117,8 @@ export default function DashboardPage() {
           <div className="flex items-center gap-2.5 flex-wrap">
             <div className="flex items-center gap-2 bg-white px-3.5 py-2 border border-slate-300 text-xs font-bold text-slate-800">
               <Users className="w-4 h-4 text-[#0A1D13]" />
-              <span className="font-mono text-[11px] text-slate-500 uppercase">Total:</span>
-              <span className="text-slate-900 font-mono font-black">{allContactsCount}</span>
+              <span className="text-[11px] text-slate-500 uppercase">Total:</span>
+              <span className="text-slate-900 font-black">{allContactsCount}</span>
             </div>
 
             <button

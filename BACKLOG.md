@@ -35,3 +35,8 @@ This document tracks ideas, feature requests, and deferred scope items raised ac
 ### Authentication & Account Security
 - **Self-Serve Password Reset Flow (Email Link / OTP)** (Feature 6): Password recovery link sent via transactional email.
 - **Inactivity Session Auto-Timeout** (Feature 6): Configurable security timeout for sensitive financial or customer data.
+
+### Outreach & Speed-Dialer Enhancements
+- **Customizable WhatsApp Greeting Templates** (Feature 12): Configure pre-filled outbound message templates with dynamic tags (e.g., `{{name}}`, `{{group_name}}`, `{{agent}}`) for 1-tap WhatsApp outreach.
+- **Tokenized / Expiring Guest Dialer Links** (Feature 12): Generate time-limited, read-scoped dialer links for external contractor telemarketers without requiring full CRM login credentials.
+

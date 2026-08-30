@@ -122,7 +122,7 @@ export function GroupManagerModal({
 
           {/* Create Group Form */}
           <form onSubmit={handleCreateGroup} className="space-y-2">
-            <label className="text-xs font-mono uppercase font-bold text-slate-700 block">
+            <label className="text-xs uppercase font-bold text-slate-700 block">
               Create New Group
             </label>
             <div className="flex gap-2">
@@ -146,7 +146,7 @@ export function GroupManagerModal({
 
           {/* Existing Groups List */}
           <div className="space-y-2">
-            <label className="text-xs font-mono uppercase font-bold text-slate-700 block">
+            <label className="text-xs uppercase font-bold text-slate-700 block">
               Your Groups ({groupsWithCounts.length})
             </label>
 
@@ -193,7 +193,7 @@ export function GroupManagerModal({
                             <p className="text-xs font-black text-slate-900 truncate">
                               {group.name}
                             </p>
-                            <span className="font-mono text-[10px] text-slate-500 font-bold">
+                            <span className="text-[10px] text-slate-500 font-bold">
                               {group.contactCount} contact{group.contactCount === 1 ? "" : "s"}
                             </span>
                           </div>
