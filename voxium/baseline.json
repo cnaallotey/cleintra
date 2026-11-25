@@ -1,3 +1,8 @@
 {
-  "violations": []
+  "violations": [
+    "CYCLE01:app+components+lib+types",
+    "LAYER01:src/lib/voxium-test.ts->src/app/robots.ts",
+    "LAYER01:src/lib/voxium-test.ts->src/components/AppShell.tsx",
+    "LAYER01:src/types/voxium-test.ts->src/app/robots.ts"
+  ]
 }
