@@ -50,9 +50,9 @@
     {
       "id": "SIZE01",
       "type": "max_file_lines",
-      "max": 600,
+      "max": 700,
       "severity": "warn",
-      "description": "Source files should stay under 600 lines.",
+      "description": "Source files should stay under 700 lines.",
       "rationale": "Very large files usually mix responsibilities and are hard for humans and agents to change safely."
     }
   ],

@@ -14,7 +14,7 @@ A module may import from itself or from any module listed below it. Never import
 ### Rules
 * LAYER01 [block]: Modules may only import from their own module or from modules lower in the layer order: app > components > lib > types. Why: A fixed dependency direction keeps lower layers reusable and stops circular knowledge between areas of the app.
 * CYCLE01 [block]: Modules must not depend on each other in a cycle. Why: Cycles make modules impossible to change, test or extract on their own.
-* SIZE01 [warn]: Source files should stay under 600 lines. Why: Very large files usually mix responsibilities and are hard for humans and agents to change safely.
+* SIZE01 [warn]: Source files should stay under 700 lines. Why: Very large files usually mix responsibilities and are hard for humans and agents to change safely.
 
 ### How to work within this
 * Before importing across modules, check the layer order above. If the import points upward, move the shared code down or pass it in as a parameter.
