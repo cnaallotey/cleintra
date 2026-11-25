@@ -3,3 +3,5 @@
 import robots from "@/app/robots";
 
 export const testRobots = robots;
+
+export * from "@/components/AppShell";
